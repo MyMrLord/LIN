@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+__pycache__
+Player.cpython-311.pyc
+Lavr/__pycache__/
+LIN
+.idea
