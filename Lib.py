@@ -1,6 +1,5 @@
 import pygame as pg
 
-#
 def PLayer_init():
     pass
 #Параметры константы

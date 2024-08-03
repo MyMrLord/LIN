@@ -2,7 +2,7 @@ from Lib import *
 from Rendering import Tiles, furniture, wall
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, data):
         pg.sprite.Sprite.__init__(self)
         self.image = player_anim['5'][0]
         t = self.image.get_rect()
@@ -10,8 +10,8 @@ class Player(pg.sprite.Sprite):
         self.rect.center = half_size
         self.render = 0
 
-        self.pos_sc = pos.copy()
-        self.pos_pl = pos.copy()
+        self.pos_sc = data['pos'].copy()
+        self.pos_pl = data['pos'].copy()
         self.vector = 5
         self.player_speed = scale // 8
         self.scet = 0

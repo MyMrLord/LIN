@@ -1,0 +1,12 @@
+{
+  "map": {
+    "layer1": 0,
+    "layer2": 0,
+    "layer3": 0,
+    "layer4": 0
+  },
+  "player": {
+    "pos": [1000, 1030],
+    "layer": "layer1"
+  }
+}
