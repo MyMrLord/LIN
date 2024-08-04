@@ -35,7 +35,7 @@ class Build:
             self.data = json.load(f)
         for i in self.data:
             if i == 'player':
-                player = Player.Player(self.data[i])
+                player = Player.Player(self.data)
             if i == 'map':
                 if self.data['map'][self.data['player']['layer']] == 0:
                     self.create_map(self.data['player']['layer'])
@@ -72,7 +72,7 @@ class Build:
                         if i[-1] == ",":
                             i = i[:-1]
                         self.data['map'][layer]['furniture'].append(list(map(int, i.split(','))))
-                if elem.attrib['name'] == 'interact':
+                if elem.attrib['name'] == 'interact_obj':
                     for i in list(elem.iter('data'))[0].text.split('\n'):
                         if i.split() == []:
                             continue

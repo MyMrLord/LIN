@@ -1,5 +1,5 @@
 from Lib import *
-from Rendering import Tiles, furniture, wall
+from Rendering import Tiles, player_anim, translater, width, height
 
 class Player(pg.sprite.Sprite):
     def __init__(self, data):
@@ -10,27 +10,28 @@ class Player(pg.sprite.Sprite):
         self.rect.center = half_size
         self.render = 0
 
-        self.pos_sc = data['pos'].copy()
-        self.pos_pl = data['pos'].copy()
+        self.pos_sc = data['player']['pos'].copy()
+        self.pos_pl = data['player']['pos'].copy()
         self.vector = 5
         self.player_speed = scale // 8
         self.scet = 0
         self.level = 0
         self.tangible_obj = pg.sprite.Group()
+        self.data = data
 
     def check_rout(self):
         self.tangible_obj = pg.sprite.Group()
         for i in range(self.pos_pl[0] // scale - rad_grip, self.pos_pl[0] // scale + rad_grip + 1):
             for j in range(self.pos_pl[1] // scale - rad_grip, self.pos_pl[1] // scale + rad_grip + 1):
-                if furniture[j][i] != 0:
-                    t = Tiles([i, j], self.pos_sc, 3)
-                    t.type_text = furniture[j][i]
+                if self.data['map']['layer1']["furniture"][j][i] != 0:
+                    t = Tiles([i, j], self.pos_sc, 3, self.data)
+                    t.type_text = self.data['map']['layer1']["furniture"][j][i]
                     x = t.image.get_rect()
                     t.rect.y += x[3] - scale
                     self.tangible_obj.add(t)
-                if wall[j][i] != 0:
-                    t = Tiles([i, j], self.pos_sc, 2)
-                    t.type_text = wall[j][i]
+                if self.data['map']['layer1']["wall"][j][i] != 0:
+                    t = Tiles([i, j], self.pos_sc, 2, self.data)
+                    t.type_text = self.data['map']['layer1']["wall"][j][i]
                     x = t.image.get_rect()
                     t.rect.y += x[3] - scale
                     self.tangible_obj.add(t)
