@@ -33,9 +33,6 @@ class Render:
                     layer2.add(Tiles([i, j], [half_size[0], half_size[1]], 2, data))
                 if furniture[j][i] != 0:
                     layer3.add(Tiles([i, j], [half_size[0], half_size[1]], 3, data))
-                if interact_obj[j][i] != 0:
-                    layer3.add(Tiles([i, j], [half_size[0], half_size[1]], 4, data))
-                    layer4.add(interact_obj[j][i])
         layer1.draw(self.layer_floor)
         layer2.draw(self.layer)
         layer3.draw(self.layer)

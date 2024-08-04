@@ -100,18 +100,34 @@ class Player(pg.sprite.Sprite):
         else:
             self.pos_sc[1] += y
             self.pos_pl[1] += y
+    def rend_obj(self):
+        keystate = pg.key.get_pressed()
+        for i in range((self.pos_sc[0] - half_size[0] - rad_grip * scale) // scale, (self.pos_sc[0] + half_size[0] + rad_grip * scale) // scale + 1):
+            for j in range((self.pos_sc[1] - half_size[1] - rad_grip * scale) // scale, (self.pos_sc[1] + half_size[1] + rad_grip * scale) // scale + 1):
+                if self.data['map']['layer1']["interact"][j][i] != 0:
+                    t = Tiles([i, j], self.pos_sc, 4, self.data)   # Тут глобальная кор вместо локальной !!!!
+                    t.type = self.data['map']['layer1']["interact"][j][i] - 1
+                    etalon = t.rect.center
+                    self.render.all_l1.add(deepcopy(t))
+                    x = t.image.get_rect()
+                    t.rect.size = (x[2] + rad_grip * scale, x[3] + rad_grip * scale)
+                    t.rect.center = etalon
+                    x = pg.sprite.GroupSingle()
+                    x.add(t)
+                    elem = t.type
+                    in_range = bool(pg.sprite.spritecollideany(self, x))
+                    # Можешь вписывать код сюда, фильтруя через if
+                    if elem in self.data['map']['items'] and in_range:
+                        x = all_notification['up_items']
+                        self.render.rend_surface(x[0].render(x[2], True, x[3]), (300, 300))
+                        if keystate[pg.K_r]:
+                            self.data['map']['layer1']['interact'][j] = \
+                            self.data['map']['layer1']['interact'][j][:i] + [0] + \
+                            self.data['map']['layer1']['interact'][j][i + 1:]
+                            self.render.all_l1.remove(t)
+                            self.tangible_obj.remove(t)
     def update(self):
         self.check_rout()
         self.movement()
-        for i in self.tangible_obj:
-            t = deepcopy(i)
-            x = t.image.get_rect()
-            t.rect.size = (x[2] + rad_grip * scale, x[3] + rad_grip * scale)
-            x = pg.sprite.GroupSingle()
-            x.add(t)
-            elem = t.type
-            # Можешь вписывать код сюда, фильтруя через if
-            if elem in self.data['map']['items']:
-                x = all_notification['up_items']
-                self.render.rend_surface(x[0].render(x[2], True, x[3]), (300, 300))
+        self.rend_obj()
         self.render.all_sc.add(self)
