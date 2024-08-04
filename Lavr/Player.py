@@ -35,6 +35,13 @@ class Player(pg.sprite.Sprite):
                     x = t.image.get_rect()
                     t.rect.y += x[3] - scale
                     self.tangible_obj.add(t)
+                if self.data['map']['layer1']["interact"][j][i] != 0:
+                    t = Tiles([i, j], self.pos_sc, 4, self.data)
+                    t.type_text = self.data['map']['layer1']["interact"][j][i]
+                    x = t.image.get_rect()
+                    t.rect.y += x[3] - scale
+                    self.tangible_obj.add(t)
+
     def movement(self):
         keystate = pg.key.get_pressed()
         x = 0

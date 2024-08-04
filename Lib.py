@@ -1,7 +1,5 @@
 import pygame as pg
 
-def PLayer_init():
-    pass
 #Параметры константы
 fps = 30
 size = (480 * 2, 360 * 2)
