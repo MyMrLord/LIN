@@ -3,7 +3,8 @@
     "layer1": 0,
     "layer2": 0,
     "layer3": 0,
-    "layer4": 0
+    "layer4": 0,
+    "items": [41]
   },
   "player": {
     "pos": [1000, 1030],

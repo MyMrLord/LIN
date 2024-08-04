@@ -10,6 +10,7 @@ class Render:
         interact_obj = data['map']['layer1']['interact']
         self.sc = screen
         self.l1 = pg.Surface(size)
+        self.l2 = pg.Surface(size)
         self.player = player
         self.all_l1 = pg.sprite.Group()
         self.all_sc = pg.sprite.Group()
@@ -39,12 +40,17 @@ class Render:
         layer2.draw(self.layer)
         layer3.draw(self.layer)
 
+    def rend_surface(self, surface, cor):
+        self.l2.blit(surface, cor)
     def rend_world(self):
         self.l1.blit(self.layer_floor, (-self.player.pos_sc[0] + half_size[0], -self.player.pos_sc[1] + half_size[1]))
         self.all_sc.draw(self.l1)
         self.l1.blit(self.office[self.player.level], (-self.player.pos_sc[0] + half_size[0], -self.player.pos_sc[1] + half_size[1]))
         self.all_l1.draw(self.l1)
         self.sc.blit(self.l1, (0,0))
+        self.sc.blit(self.l2, (0,0))
+        self.l2.fill((0,0,0))
+        self.l2.set_colorkey((0,0,0))
     def update(self):
         self.sc.fill((0,0,0))
         self.l1.fill((0,0,0))
@@ -69,6 +75,7 @@ class Tiles(pg.sprite.Sprite):
         if layer == 4:
             t = interact_obj[tile_cor[1]][tile_cor[0]]
         self.image = tiles[t-1]
+        self.type = 0
         t = self.image.get_rect()
         self.rect = pg.rect.Rect((0, 0, t[2], scale))
         self.rect.x = tile_cor[0] * scale - pl_cor[0] + half_size[0]
@@ -100,3 +107,11 @@ for i in root.iter('tile'):
     tiles[id] = pg.transform.scale(t, (t.get_rect()[2] * (scale // 16), t.get_rect()[3] * (scale // 16)))
 height = 90
 width = 100
+
+#Уведомления
+pg.font.init()
+notification_font = pg.font.SysFont('arial', 36)
+all_notification = {'in_hide': [notification_font, (300, 600), 'Нажмите r, чтобы спрятаться', (255,255,255)],
+                    'up_items': [notification_font, (300, 600), 'Нажмите r, чтобы подобрать', (255,255,255)],
+                    'door_lock':[notification_font, (300, 600), 'У вас нет ключа.', (255,255,255)],
+                    'nps_range':[notification_font, (300, 600), 'Нажмите r, чтобы поговорить', (255,255,255)]}

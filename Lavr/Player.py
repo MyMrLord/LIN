@@ -1,5 +1,6 @@
 from Lib import *
-from Rendering import Tiles, player_anim, translater, width, height
+from Rendering import Tiles, player_anim, translater, width, height, all_notification
+from copy import deepcopy
 
 class Player(pg.sprite.Sprite):
     def __init__(self, data):
@@ -40,6 +41,7 @@ class Player(pg.sprite.Sprite):
                     t.type_text = self.data['map']['layer1']["interact"][j][i]
                     x = t.image.get_rect()
                     t.rect.y += x[3] - scale
+                    t.type = self.data['map']['layer1']["interact"][j][i] - 1
                     self.tangible_obj.add(t)
 
     def movement(self):
@@ -101,4 +103,15 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.check_rout()
         self.movement()
+        for i in self.tangible_obj:
+            t = deepcopy(i)
+            x = t.image.get_rect()
+            t.rect.size = (x[2] + rad_grip * scale, x[3] + rad_grip * scale)
+            x = pg.sprite.GroupSingle()
+            x.add(t)
+            elem = t.type
+            # Можешь вписывать код сюда, фильтруя через if
+            if elem in self.data['map']['items']:
+                x = all_notification['up_items']
+                self.render.rend_surface(x[0].render(x[2], True, x[3]), (300, 300))
         self.render.all_sc.add(self)
